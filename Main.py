@@ -5,9 +5,6 @@ import pandas as pd
 import time
 from datetime import datetime
 
-def main():
-    # Code for second tab goes here
-
     def scrape_page(url):
         response = requests.get(url)
         soup = BeautifulSoup(response.content, "html.parser")
