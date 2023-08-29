@@ -1,2 +1,5 @@
 beautifulsoup4
 prettytable
+streamlit
+requests
+pandas
