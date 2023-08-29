@@ -7,8 +7,8 @@ from datetime import datetime
 
 #def main():
     # Code for second tab goes here
-st.set_page_config(layout="wide")
 
+st.set_page_config(layout="wide")
 def scrape_page(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -67,21 +67,26 @@ all_data = scrape_all_pages(base_url, num_pages)
 # Filter jobs by education level
 education_levels = ["B.E/ B.Tech", "Any Degree", "Electronics and Communication Engineering", "10th", "12th", "Intermediate (10+2)"]
 
-# Add a checkbox to turn the filter on or off
-filter_on = st.checkbox('Turn Education Filter On/Off', value=True)
-
-if filter_on:
-    filtered_data = filter_jobs_by_education(all_data, education_levels)
-else:
-    filtered_data = all_data
-
 # Clean up the job details
-cleaned_data = clean_job_details(filtered_data)
+cleaned_data = clean_job_details(all_data)
 
 sorted_data = sort_by_last_date(cleaned_data)
 
-headers = ["Organisation", "Last Date", "Qualification", "Vacancies"]
+# Convert sorted_data into a DataFrame
+df_sorted_data = pd.DataFrame(sorted_data, columns=["Organisation", "Last Date", "Qualification", "Vacancies"])
 
 # Display the data in a Streamlit app
 st.title('Latest Government Jobs')
-st.table(sorted_data)
+
+# Add a drop-down filter for the 'Education' column with an 'Any' option
+education_option = st.selectbox(
+    'Which education level you would like to display?',
+     ['Any'] + list(df_sorted_data['Qualification'].unique()))
+
+# Filter the DataFrame based on the selected value
+if education_option == 'Any':
+    filtered_df = df_sorted_data
+else:
+    filtered_df = df_sorted_data[df_sorted_data['Qualification'] == education_option]
+
+st.table(filtered_df)
