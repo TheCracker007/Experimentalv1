@@ -34,8 +34,8 @@ def filter_jobs_by_education(data, education_levels):
 
 def clean_job_details(data):
     for job in data:
-        posts_info = job[3].split('-')[-1].strip()  # Extract the number of posts info
-        job[3] = posts_info  # Replace the entire job details string with the number of posts info
+        posts_info = job[3].split('-')[-1].strip() 
+        job[3] = posts_info  
     return data
 
 def scrape_all_pages(base_url, num_pages):
@@ -69,7 +69,8 @@ cleaned_data = clean_job_details(filtered_data)
 
 sorted_data = sort_by_last_date(cleaned_data)
 
-headers = ["Organization", "Last Date", "Education", "Job Details"]
+# Convert sorted_data into a DataFrame
+df_sorted_data = pd.DataFrame(sorted_data, columns=["Organization", "Last Date", "Education", "Job Details"])
 
 # Display the data in a Streamlit app
 st.title('Latest Government Jobs')
@@ -77,9 +78,9 @@ st.title('Latest Government Jobs')
 # Add a drop-down filter for the 'Education' column
 education_option = st.selectbox(
     'Which education level you would like to display?',
-     sorted_data['Education'].unique())
+     df_sorted_data['Education'].unique())
 
 # Filter the DataFrame based on the selected value
-filtered_df = sorted_data[sorted_data['Education'] == education_option]
+filtered_df = df_sorted_data[df_sorted_data['Education'] == education_option]
 
 st.table(filtered_df)
