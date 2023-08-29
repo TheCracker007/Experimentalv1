@@ -7,6 +7,7 @@ from datetime import datetime
 
 #def main():
     # Code for second tab goes here
+st.set_page_config(layout="wide")
 
 def scrape_page(url):
     response = requests.get(url)
