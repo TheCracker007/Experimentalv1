@@ -9,7 +9,7 @@ html = response.text
 soup = BeautifulSoup(html, 'html.parser')
 
 # Create the table header
-table = '| Job Title | Number of Posts | Last Date | Link |\n'
+table = '| Job Title | Vacancies | Last Date | Link |\n'
 table += '| --- | --- | --- | --- |\n'
 
 # Find all the job opportunities listed on the page
